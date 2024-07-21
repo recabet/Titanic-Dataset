@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, roc_curve, auc
-from model import my_LogisticRegression, normalize
+from model import my_LogisticRegression
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -14,7 +14,7 @@ df.Sex = df.Sex.replace({"male": 0, "female": 1})
 df = df.dropna(subset=["Age", "SibSp", "Fare", "Pclass", "Survived", "Sex"])
 print(df.columns)
 
-model = my_LogisticRegression(iterations=15000, alpha=0.01)
+model = my_LogisticRegression(iterations=20000, alpha=0.001)
 
 x = df.drop(["Survived"], axis=1)
 y = df["Survived"]
@@ -30,8 +30,8 @@ ones_test = np.ones((x_test.shape[0], 1))
 
 x_test = x_test.to_numpy()
 
-x_train = normalize(x_train)
-x_test = normalize(x_test)
+x_train = my_LogisticRegression.normalize(x_train)
+x_test = my_LogisticRegression.normalize(x_test)
 
 inputs_test = np.hstack((ones_test, x_test))
 
